@@ -1,6 +1,15 @@
 import VessellSDK from '@vessell/sdk'
+import { getCookies } from 'cookies-next'
 
-export default VessellSDK({
-  projectCode: process.env.NEXT_PUBLIC_VESSELL_PROJECT_CODE,
-  firebaseAuthTenantId: process.env.NEXT_PUBLIC_VESSELL_FIREBASE_AUTH_TENANT_ID,
-})
+const SDK = VessellSDK()
+
+if (typeof window !== 'undefined') {
+  const { projectCode, firebaseAuthTenantId } = getCookies()
+
+  SDK.setConfig({
+    projectCode,
+    firebaseAuthTenantId,
+  })
+}
+
+export default SDK
