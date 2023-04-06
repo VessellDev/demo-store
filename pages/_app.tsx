@@ -1,12 +1,13 @@
-import 'styles/globals.css'
-import type { AppProps } from 'next/app'
 import { CacheProvider, EmotionCache } from '@emotion/react'
-import theme from 'theme'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import createEmotionCache from 'createEmotionCache'
+import { getAppInitialProps } from 'getAppInitialProps'
+import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SnackbarProvider } from 'notistack'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import 'styles/globals.css'
+import theme from 'theme'
 
 const clientSideEmotionCache = createEmotionCache()
 const queryClient = new QueryClient()
@@ -16,12 +17,7 @@ interface MyAppProps extends AppProps {
 }
 
 function MyApp(props: MyAppProps) {
-  const {
-    Component,
-    emotionCache = clientSideEmotionCache,
-    pageProps,
-    router,
-  } = props
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   return (
     <CacheProvider value={emotionCache}>
@@ -39,4 +35,7 @@ function MyApp(props: MyAppProps) {
     </CacheProvider>
   )
 }
+
+MyApp.getInitialProps = getAppInitialProps
+
 export default MyApp
