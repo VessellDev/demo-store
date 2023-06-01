@@ -1,7 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { setCookie } from 'cookies-next'
+import NextCors from 'nextjs-cors'
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  await NextCors(req, res, {
+    methods: ['GET'],
+    origin: '*',
+    optionsSuccessStatus: 200,
+  })
+
   const { projectCode, firebaseAuthTenantId } = req.query
 
   if (!firebaseAuthTenantId) {
